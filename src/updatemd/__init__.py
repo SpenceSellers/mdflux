@@ -1,7 +1,7 @@
 import subprocess
 import os
 
-from updatemd.markdown import get_link_label
+from updatemd.markdown import escape_markdown, get_link_label
 from updatemd.tagparsing import parse_tags
 
 def apply_updatemd_file(filename: str):
@@ -33,9 +33,8 @@ def _prepare_content(content: str, code: str | None = None, markdown: bool = Fal
     elif markdown:
         return content
     else:
-        # This puts a newline at the end, which we actually need because link labels seem to need a newline in
-        # front of them, unless they're after a code block (??)
-        return "\n".join(line + "\n" for line in content.splitlines())
+        # Putting \ at the end of a markdown line creates a single-line break. Hence the \\\n
+        return "\\\n".join(line for line in escape_markdown(content).splitlines()) + "\n"
 
 
 def apply_updatemd_str(input_md: str, filename: str) -> str:
@@ -46,10 +45,8 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
     for i, line in enumerate(lines):
         if label := get_link_label(line):
             link_label_name, content_inside_parentheses = label
-            print(f"Processing {link_label_name=}, {content_inside_parentheses=}")
 
             link_label_tags = parse_tags(link_label_name)
-            print(repr(link_label_tags))
             if "u" not in link_label_tags:
                 continue  # This isn't an updatemd tag
 
