@@ -4,29 +4,34 @@ import os
 from updatemd.markdown import escape_markdown, get_link_label
 from updatemd.tagparsing import parse_tags
 
-def apply_updatemd_file(filename: str):
+
+def apply_updatemd_file(filename: str, write=True) -> str:
     with open(filename, "r") as f:
         file_contents = f.read()
-    
+
     result = apply_updatemd_str(file_contents, filename)
-    with open(filename, "w") as f:
-        f.write(result)
+    if write:
+        with open(filename, "w") as f:
+            f.write(result)
+    return result
 
 
 def _exec(cmd: str, file_path: str) -> str:
-
     cwd = os.path.dirname(file_path)
     res = subprocess.run(cmd, shell=True, check=True, capture_output=True, cwd=cwd)
     return res.stdout.decode("utf-8")
 
+
 def _ensure_ends_in_newline(s: str) -> str:
-    if not s.endswith('\n'):
-        return s + '\n'
+    if not s.endswith("\n"):
+        return s + "\n"
     else:
         return s
 
 
-def _prepare_content(content: str, code: str | None = None, markdown: bool = False) -> str:
+def _prepare_content(
+    content: str, code: str | None = None, markdown: bool = False
+) -> str:
     content = _ensure_ends_in_newline(content.strip())
     if code is not None:
         return f"```{code}\n{content}```"
@@ -34,7 +39,9 @@ def _prepare_content(content: str, code: str | None = None, markdown: bool = Fal
         return content
     else:
         # Putting \ at the end of a markdown line creates a single-line break. Hence the \\\n
-        return "\\\n".join(line for line in escape_markdown(content).splitlines()) + "\n"
+        return (
+            "\\\n".join(line for line in escape_markdown(content).splitlines()) + "\n"
+        )
 
 
 def apply_updatemd_str(input_md: str, filename: str) -> str:
@@ -56,7 +63,11 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
                 new_lines.append(line)  # Preserve the link label
                 new_content = _exec(content_inside_parentheses, filename)
                 new_lines.append(
-                    _prepare_content(new_content, code=link_label_tags.get("code"), markdown="markdown" in link_label_tags)
+                    _prepare_content(
+                        new_content,
+                        code=link_label_tags.get("code"),
+                        markdown="markdown" in link_label_tags,
+                    )
                 )
                 inside_content_block = True
 
