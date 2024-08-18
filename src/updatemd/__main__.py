@@ -2,6 +2,10 @@ import click
 
 from updatemd import apply_updatemd_file
 
+@click.group()
+def cli():
+    pass
+
 
 @click.command()
 @click.argument("filename")
@@ -17,4 +21,4 @@ def main(filename: str, no_write: bool = False):
 
 
 if __name__ == "__main__":
-    main()
+    cli()

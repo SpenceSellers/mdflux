@@ -17,6 +17,7 @@ def apply_updatemd_file(filename: str, write=True) -> str:
 
 
 def _exec(cmd: str, file_path: str) -> str:
+    file_path = os.path.abspath(file_path)
     cwd = os.path.dirname(file_path)
     res = subprocess.run(cmd, shell=True, check=True, capture_output=True, cwd=cwd)
     return res.stdout.decode("utf-8")
