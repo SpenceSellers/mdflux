@@ -1,3 +1,4 @@
+import click
 from mdflux.markdown import escape_markdown, get_link_label
 from mdflux.tagparsing import parse_tags
 from . import shell
@@ -58,6 +59,11 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
             if "end" in link_label_tags:
                 inside_content_block = False
             else:
+                if inside_content_block:
+                    # It's very easy to accidentally forget an [mdflux end] tag
+                    raise MdfluxFormatError(
+                        "Encountered a non-end [mdflux] tag while already in an [mdflux] block. Are you missing an `[mdflux end]: #` ?"
+                    )
                 new_lines.append(line)  # Preserve the link label
                 exec_result = shell.exec(content_inside_parentheses, filename)
                 new_content = (
@@ -80,4 +86,5 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
     return "\n".join(new_lines)
 
 
-# [comment]: # (This actually is the most platform independent comment)
+class MdfluxFormatError(click.ClickException):
+    pass
