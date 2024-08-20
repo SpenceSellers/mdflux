@@ -1,6 +1,3 @@
-import subprocess
-import os
-
 from mdflux.markdown import escape_markdown, get_link_label
 from mdflux.tagparsing import parse_tags
 from . import shell
@@ -41,16 +38,16 @@ def _prepare_content(
 
 def apply_updatemd_str(input_md: str, filename: str) -> str:
     inside_content_block = False
-    inside_code_block = False # mdflux tags can't be used inside code blocks, because link labels can't be used inside code blocks.
+    inside_code_block = False  # mdflux tags can't be used inside code blocks, because link labels can't be used inside code blocks.
     lines = input_md.splitlines()
     new_lines = []
 
     for i, line in enumerate(lines):
         # TODO It's possible to escape code blocks by using a different number of backticks.
         # We're not handling that case yet.
-        if '```' in line:
+        if "```" in line:
             inside_code_block = not inside_code_block
-        
+
         if not inside_code_block and (label := get_link_label(line)):
             link_label_name, content_inside_parentheses = label
 
@@ -63,7 +60,11 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
             else:
                 new_lines.append(line)  # Preserve the link label
                 exec_result = shell.exec(content_inside_parentheses, filename)
-                new_content = exec_result.stdout if 'stderr' not in link_label_tags else exec_result.stderr
+                new_content = (
+                    exec_result.stdout
+                    if "stderr" not in link_label_tags
+                    else exec_result.stderr
+                )
                 new_lines.append(
                     _prepare_content(
                         new_content,

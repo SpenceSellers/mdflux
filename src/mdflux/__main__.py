@@ -4,6 +4,7 @@ import click
 from mdflux import apply_updatemd_file
 from mdflux.markdown import escape_markdown
 
+
 @click.group()
 def cli():
     pass
@@ -22,15 +23,16 @@ def update(filename: str, no_write: bool = False):
     if no_write:
         print(result)
 
+
 @cli.command()
-@click.argument("file", type=click.File('r'), default=sys.stdin)
+@click.argument("file", type=click.File("r"), default=sys.stdin)
 def escape(file):
     """Escape markdown so that it's safe to embed in markdown.
-    
+
     Turns [search](https://google.com) into \\[search\\]\\(https://google.com\\) etc.
 
     FILE is optional, and will default to stdin if not provided.
-    
+
     """
     print(escape_markdown(file.read()))
 
