@@ -104,10 +104,21 @@ Rendered as:Hello World
 
 _some text_
 
+### Embedding stderr instead of stdout
+By default, mdflux transposes the stdout of the shell command into the markdown document.
 
+The `stderr` argument tells mdflux to read from stderr instead.
 
+```
+[mdflux stderr]: # (echo "big error 1>&2")
+[mdflux end] #
+```
 
-## CLI usage
+Yields:
+[mdflux code stderr]: # (echo "big error" 1>&2)
+```
+big error
+```
 [mdflux code]: # (mdflux --help)
 ```
 Usage: mdflux [OPTIONS] COMMAND [ARGS]...

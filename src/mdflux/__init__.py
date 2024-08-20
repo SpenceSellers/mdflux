@@ -3,6 +3,7 @@ import os
 
 from mdflux.markdown import escape_markdown, get_link_label
 from mdflux.tagparsing import parse_tags
+from . import shell
 
 
 def apply_updatemd_file(filename: str, write=True) -> str:
@@ -14,13 +15,6 @@ def apply_updatemd_file(filename: str, write=True) -> str:
         with open(filename, "w") as f:
             f.write(result)
     return result
-
-
-def _exec(cmd: str, file_path: str) -> str:
-    file_path = os.path.abspath(file_path)
-    cwd = os.path.dirname(file_path)
-    res = subprocess.run(cmd, shell=True, check=True, capture_output=True, cwd=cwd)
-    return res.stdout.decode("utf-8")
 
 
 def _ensure_ends_in_newline(s: str) -> str:
@@ -68,7 +62,8 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
                 inside_content_block = False
             else:
                 new_lines.append(line)  # Preserve the link label
-                new_content = _exec(content_inside_parentheses, filename)
+                exec_result = shell.exec(content_inside_parentheses, filename)
+                new_content = exec_result.stdout if 'stderr' not in link_label_tags else exec_result.stderr
                 new_lines.append(
                     _prepare_content(
                         new_content,
