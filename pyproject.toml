@@ -13,7 +13,7 @@ readme = "README.md"
 requires-python = ">= 3.12"
 
 [project.scripts]
-updatemd = 'updatemd.__main__:main'
+mdflux = 'updatemd.__main__:cli'
 
 [build-system]
 requires = ["hatchling"]
