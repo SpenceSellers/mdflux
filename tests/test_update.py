@@ -1,4 +1,5 @@
 import mdflux
+import pytest
 
 
 def test_update_does_not_change_tagless_file():
@@ -9,25 +10,27 @@ def test_update_does_not_change_tagless_file():
 [Link](https://link.com)
 """
 
-    res = mdflux.apply_updatemd_str(markdown, "test-file.md")
+    res = mdflux.apply_updatemd_str(markdown, __file__)
 
     assert markdown == res
 
 
 def test_basic_transpose():
-    markdown = \
-"""[mdflux]: # (echo "Test String")
+    markdown = """[mdflux]: # (echo "Test String")
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, "test-file.md")
+    res = mdflux.apply_updatemd_str(markdown, __file__)
 
-    assert res == \
-"""[mdflux]: # (echo "Test String")
+    assert (
+        res
+        == """[mdflux]: # (echo "Test String")
 Test String
 
 [mdflux end]: #
 """
+    )
+
 
 def test_tags_ignored_in_code_blocks():
     markdown = """
@@ -39,9 +42,10 @@ def test_tags_ignored_in_code_blocks():
 # Heading after
 """
 
-    res = mdflux.apply_updatemd_str(markdown, "test-file.md")
+    res = mdflux.apply_updatemd_str(markdown, __file__)
 
     assert markdown == res
+
 
 def test_code_argument():
     markdown = """
@@ -57,9 +61,10 @@ Test String
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, "test-file.md")
+    res = mdflux.apply_updatemd_str(markdown, __file__)
 
     assert res == expected_res
+
 
 def test_code_argument_with_language():
     markdown = """
@@ -75,9 +80,10 @@ Test String
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, "test-file.md")
+    res = mdflux.apply_updatemd_str(markdown, __file__)
 
     assert res == expected_res
+
 
 def test_markdown_is_escaped_by_default():
     markdown = """
@@ -92,9 +98,10 @@ def test_markdown_is_escaped_by_default():
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, "test-file.md")
+    res = mdflux.apply_updatemd_str(markdown, __file__)
 
     assert res == expected_res
+
 
 def test_markdown_in_markdown():
     markdown = """
@@ -109,10 +116,16 @@ _italics_
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, "test-file.md")
+    res = mdflux.apply_updatemd_str(markdown, __file__)
 
     assert res == expected_res
 
+@pytest.mark.parametrize("end_ending", [" ()", "", " (blah blah)"])
+def test_end_ignores_ending(end_ending: str):
+    markdown = f"""
+[mdflux]: # (./scripts/add-one.sh 30)
+[mdflux end]: #{end_ending}
+"""
 
-
-
+    res = mdflux.apply_updatemd_str(markdown, __file__)
+    assert '31' in res
