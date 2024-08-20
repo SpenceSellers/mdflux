@@ -100,7 +100,7 @@ Yields:
 ```
 _some text_
 ```
-Rendered as:Hello World
+Rendered as:
 
 _some text_
 
@@ -111,7 +111,7 @@ The `stderr` argument tells mdflux to read from stderr instead.
 
 ```
 [mdflux stderr]: # (echo "big error 1>&2")
-[mdflux end] #
+[mdflux end]: #
 ```
 
 Yields:
