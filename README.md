@@ -18,9 +18,14 @@ Hello World
 
 The mdflux tags are invisible, Markdown renderers such as Github will render this as simply:
 
-> Hello World
+[mdflux]: # (echo "Hello World")
+Hello World
+
+[mdflux end]: #
 
 Any old or outdated content between the opening and closing tags will be replaced with the new content. It's safe to run `mflux update` multiple times, duplicate insertions won't happen.
+
+
 
 ## How it works
 mdflux works by using (abusing) [Markdown Reference-Style Links](https://www.markdownguide.org/basic-syntax/#reference-style-links). This is the most reliable way to create invisible syntax elements in markdown across nearly all markdown renderers.
@@ -39,7 +44,7 @@ Here's the anatomy of a link label being used as an mdflux tag:
 ```
 [mdflux]: # (echo "Hello World")                 
  ▲        ▲  ▲                                   
- │        │  └─Page title (used as shell command)
+ │        │  └─Optional page title (used as shell command)
  │        │                                      
  │        └─URL (ignored by mdflux)              
  │                                               
@@ -138,6 +143,8 @@ Usage: mdflux escape [OPTIONS] [FILE]
 
   Turns [search](https://google.com) into \[search\]\(https://google.com\)
   etc.
+
+  FILE is optional, and will default to stdin if not provided.
 
 Options:
   --help  Show this message and exit.

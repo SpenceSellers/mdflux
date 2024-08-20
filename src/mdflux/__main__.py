@@ -27,7 +27,11 @@ def update(filename: str, no_write: bool = False):
 def escape(file):
     """Escape markdown so that it's safe to embed in markdown.
     
-    Turns [search](https://google.com) into \\[search\\]\\(https://google.com\\) etc."""
+    Turns [search](https://google.com) into \\[search\\]\\(https://google.com\\) etc.
+
+    FILE is optional, and will default to stdin if not provided.
+    
+    """
     print(escape_markdown(file.read()))
 
 
