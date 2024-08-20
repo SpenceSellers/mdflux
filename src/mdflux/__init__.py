@@ -83,7 +83,7 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
         if not inside_content_block:
             new_lines.append(line)
 
-    return "\n".join(new_lines)
+    return _ensure_ends_in_newline("\n".join(new_lines))
 
 
 class MdfluxFormatError(click.ClickException):
