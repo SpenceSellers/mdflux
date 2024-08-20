@@ -119,6 +119,9 @@ Yields:
 ```
 big error
 ```
+[mdflux end]: #
+
+## CLI usage
 [mdflux code]: # (mdflux --help)
 ```
 Usage: mdflux [OPTIONS] COMMAND [ARGS]...
