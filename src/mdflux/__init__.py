@@ -47,15 +47,20 @@ def _prepare_content(
 
 def apply_updatemd_str(input_md: str, filename: str) -> str:
     inside_content_block = False
+    inside_code_block = False # mdflux tags can't be used inside code blocks, because link labels can't be used inside code blocks.
     lines = input_md.splitlines()
     new_lines = []
 
     for i, line in enumerate(lines):
-        if label := get_link_label(line):
+        # TODO Can you escape code blocks? If so we want to not count escaped code blocks.
+        if '```' in line:
+            inside_code_block = not inside_code_block
+        
+        if not inside_code_block and (label := get_link_label(line)):
             link_label_name, content_inside_parentheses = label
 
             link_label_tags = parse_tags(link_label_name)
-            if "u" not in link_label_tags:
+            if "mdflux" not in link_label_tags:
                 continue  # This isn't an updatemd tag
 
             if "end" in link_label_tags:
