@@ -52,7 +52,8 @@ def apply_updatemd_str(input_md: str, filename: str) -> str:
     new_lines = []
 
     for i, line in enumerate(lines):
-        # TODO Can you escape code blocks? If so we want to not count escaped code blocks.
+        # TODO It's possible to escape code blocks by using a different number of backticks.
+        # We're not handling that case yet.
         if '```' in line:
             inside_code_block = not inside_code_block
         

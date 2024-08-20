@@ -58,6 +58,7 @@ Hello World
 ```
 
 ### Code blocks
+Use the `code` argument to enclose the content in a code block:
 ```
 [mdflux code]: # (echo "Hello World")
 [mdflux end] # ()
@@ -70,6 +71,7 @@ Hello World
 ````
 
 ### Code blocks with language
+Optionally specify a language for the code block:
 ```
 [mdflux code=python]: # (echo "return 1 + 2")
 [mdflux end] # ()
