@@ -115,6 +115,7 @@ The `stderr` argument tells mdflux to read from stderr instead.
 ```
 
 Yields:
+
 [mdflux code stderr]: # (echo "big error" 1>&2)
 ```
 big error
