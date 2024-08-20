@@ -1,8 +1,8 @@
 import subprocess
 import os
 
-from updatemd.markdown import escape_markdown, get_link_label
-from updatemd.tagparsing import parse_tags
+from mdflux.markdown import escape_markdown, get_link_label
+from mdflux.tagparsing import parse_tags
 
 
 def apply_updatemd_file(filename: str, write=True) -> str:

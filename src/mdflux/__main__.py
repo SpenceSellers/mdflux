@@ -1,8 +1,8 @@
 import sys
 import click
 
-from updatemd import apply_updatemd_file
-from updatemd.markdown import escape_markdown
+from mdflux import apply_updatemd_file
+from mdflux.markdown import escape_markdown
 
 @click.group()
 def cli():

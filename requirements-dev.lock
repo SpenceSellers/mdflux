@@ -11,7 +11,7 @@
 
 -e file:.
 click==8.1.7
-    # via updatemd
+    # via mdflux
 iniconfig==2.0.0
     # via pytest
 packaging==24.1
