@@ -15,10 +15,13 @@ def _unescape_string(s):
 
 
 def get_link_label(line: str) -> Tuple[str, str] | None:
-    link_label_pattern = r"\[(.*?)\]:\s*#?\s*\((.*)\)"
+    link_label_pattern = r"\[(.*?)\]:\s*#?\s*(\((.*)\))?"
     match = re.search(link_label_pattern, line)
     if match:
-        return match.group(1), _unescape_string(match.group(2))
+        link_title = match.group(3)
+        if link_title is None:
+            link_title = ""
+        return match.group(1), _unescape_string(link_title)
     else:
         return None
 

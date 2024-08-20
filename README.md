@@ -7,13 +7,13 @@ Mdflux is a utility which facilitates keeping Markdown files up-to-date by allow
 Mdflux transposes shell command output between an `[mdflux]` opening line and an `[mdflux end]` closing line:
 ```
 [mdflux]: # (echo "Hello World")
-[mdflux end] # ()
+[mdflux end]: #
 ```
 After running `mdflux update my-file.md`, mdflux will run `echo "Hello World"` and insert the output between the two mdflux tags. This will become:
 ```
 [mdflux]: # (echo "Hello World")
 Hello World
-[mdflux end] # ()
+[mdflux end]: #
 ```
 
 The mdflux tags are invisible, Markdown renderers such as Github will render this as simply:
@@ -50,7 +50,7 @@ Here's the anatomy of a link label being used as an mdflux tag:
 ### Basic usage
 ```
 [mdflux]: # (echo "Hello World")
-[mdflux end] # ()
+[mdflux end]: #
 ```
 Yields:
 ```
@@ -61,7 +61,7 @@ Hello World
 Use the `code` argument to enclose the content in a code block:
 ```
 [mdflux code]: # (echo "Hello World")
-[mdflux end] # ()
+[mdflux end]: #
 ```
 Yields:
 ````
@@ -74,7 +74,7 @@ Hello World
 Optionally specify a language for the code block:
 ```
 [mdflux code=python]: # (echo "return 1 + 2")
-[mdflux end] # ()
+[mdflux end]: #
 ```
 Yields:
 ````python
@@ -89,7 +89,7 @@ By default, any content that mdflux inserts into a markdown document is escaped:
 However, the `markdown` argument allows opting-in to rendering content as markdown without escaping it:
 ```
 [mdflux markdown]: # (echo "_some text_")
-[mdflux end] # ()
+[mdflux end] #
 ```
 Yields:
 ```
@@ -114,7 +114,7 @@ Commands:
   escape  Escape markdown so that it's safe to embed in markdown.
   update  Update a markdown file using the embedded mdflux shell commands.
 ```
-[mdflux end]: # ()
+[mdflux end]: #
 
 ### mdflux update
 [mdflux code]: # (mdflux update --help)
@@ -127,7 +127,7 @@ Options:
   --no-write  Output updated content on stdout without modifying the file.
   --help      Show this message and exit.
 ```
-[mdflux end]: # ()
+[mdflux end]: #
 
 ### mdflux escape
 [mdflux code]: # (mdflux escape --help)
@@ -142,4 +142,4 @@ Usage: mdflux escape [OPTIONS] [FILE]
 Options:
   --help  Show this message and exit.
 ```
-[mdflux end]: # ()
+[mdflux end]: #
