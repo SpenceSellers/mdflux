@@ -120,6 +120,7 @@ _italics_
 
     assert res == expected_res
 
+
 @pytest.mark.parametrize("end_ending", [" ()", "", " (blah blah)"])
 def test_end_ignores_ending(end_ending: str):
     markdown = f"""
@@ -128,4 +129,4 @@ def test_end_ignores_ending(end_ending: str):
 """
 
     res = mdflux.apply_updatemd_str(markdown, __file__)
-    assert '31' in res
+    assert "31" in res
