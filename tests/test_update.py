@@ -10,7 +10,7 @@ def test_update_does_not_change_tagless_file():
 [Link](https://link.com)
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
 
     assert markdown == res
 
@@ -20,7 +20,7 @@ def test_basic_transpose():
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
 
     assert (
         res
@@ -42,7 +42,7 @@ def test_tags_ignored_in_code_blocks():
 # Heading after
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
 
     assert markdown == res
 
@@ -61,7 +61,7 @@ Test String
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
 
     assert res == expected_res
 
@@ -80,7 +80,7 @@ Test String
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
 
     assert res == expected_res
 
@@ -98,7 +98,7 @@ def test_markdown_is_escaped_by_default():
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
 
     assert res == expected_res
 
@@ -116,7 +116,7 @@ _italics_
 [mdflux end]: #
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
 
     assert res == expected_res
 
@@ -128,5 +128,5 @@ def test_end_ignores_ending(end_ending: str):
 [mdflux end]: #{end_ending}
 """
 
-    res = mdflux.apply_updatemd_str(markdown, __file__)
+    res = mdflux.apply_mdflux_str(markdown, __file__)
     assert "31" in res

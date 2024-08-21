@@ -1,7 +1,7 @@
 import sys
 import click
 
-from mdflux import apply_updatemd_file
+from mdflux import apply_mdflux_file
 from mdflux.markdown import escape_markdown
 
 
@@ -19,7 +19,7 @@ def cli():
 )
 def update(filename: str, no_write: bool = False):
     """Update a markdown file using the embedded mdflux shell commands."""
-    result = apply_updatemd_file(filename, write=not no_write)
+    result = apply_mdflux_file(filename, write=not no_write)
     if no_write:
         print(result)
 
