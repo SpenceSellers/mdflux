@@ -1,11 +1,10 @@
 [project]
 name = "mdflux"
 version = "0.1.0"
-description = "Add your description here"
+description = "Keep your markdown docs up-to-date by embedding invisible shell commands"
 authors = [
     { name = "Spence Sellers", email = "spencesellers@gmail.com" }
 ]
-
 dependencies = [
     "click>=8.1.7",
 ]
@@ -19,14 +18,13 @@ mdflux = 'mdflux.__main__:cli'
 requires = ["hatchling"]
 build-backend = "hatchling.build"
 
-[tool.rye]
-managed = true
-dev-dependencies = [
-    "pytest>=8.3.2",
-]
-
 [tool.hatch.metadata]
 allow-direct-references = true
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/mdflux"]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
